@@ -3,7 +3,7 @@
 #include <iostream>
 vector<int> karatsuba(vector<int> x,vector<int> y){
 
-	if (x.size() <= 1 || y.size() <= 1) {
+	if (x.size() <= 4 || y.size() <= 4) {
 		vector<int> res = longMult(x, y);
 		return res;
 	}
@@ -27,15 +27,15 @@ vector<int> karatsuba(vector<int> x,vector<int> y){
 	abcd = karatsuba(sumx, sumy); //cout << "sumx: "; printArry(sumx); cout << "sumy: "; printArry(sumy);  cout << "abcd: "; printArry(abcd); printArry(longMult(sumx, sumy));
 	first = upbyTen(ac, x.size());
 	acSumbd = adder(ac, bd);
-	removeLeadZeros(acSumbd);
+	//removeLeadZeros(acSumbd);
 	equalSize(abcd, acSumbd);
 	middle = sub(abcd, acSumbd);
-	removeLeadZeros(middle);
+	//removeLeadZeros(middle);
 	middle = upbyTen(middle, (x.size() / 2));
 	middle = adder(first, middle);
-	removeLeadZeros(middle);
+	//removeLeadZeros(middle);
 	end = adder(middle, bd);
-	removeLeadZeros(end);
+	//removeLeadZeros(end);
  	return end;
 }
 //adder(adder(upbyTen(ac, 2), upbyTen(sub(sub(abcd, ac, 2), bd, 2 * 2), 2 / 2), 2), bd, 2);

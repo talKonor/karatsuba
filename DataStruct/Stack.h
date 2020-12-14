@@ -11,6 +11,7 @@ struct ItemType
 {
 	vector<int> x;
 	vector<int> y;
+	vector<int> ac,bd,abcd;
 	vector<int> out;
 	int line;
 	ItemType();

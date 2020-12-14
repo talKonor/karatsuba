@@ -29,6 +29,7 @@ int Stack::isEmpty()
 void Stack::push(ItemType next)
 {
     top = new Node(next, top);
+
 }
 
 ItemType Stack::pop()
@@ -69,11 +70,15 @@ ItemType::ItemType(const ItemType& item)
     this->out = item.out;
     this->x = item.x;
     this->y = item.y;
+    this->ac = item.ac;
+    this->bd = item.bd;
+    this->abcd = item.abcd;
+    this->out = item.out;
 }
 
 Node::Node(const ItemType& item, Node* next)
 {
-    ItemType data(item);
     this->next = next;
+    this->item = item;
 }
 

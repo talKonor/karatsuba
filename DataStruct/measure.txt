@@ -1,0 +1,3 @@
+Time taken by function LongMult is : 1.564821 sec
+Time taken by function Karatsuba is : 10.654024 sec
+Time taken by function KaratsubaNotRec is : 19.082477 sec
