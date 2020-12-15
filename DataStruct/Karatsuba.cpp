@@ -1,131 +1,151 @@
 
 #include "Karatsuba.h"
 #include <iostream>
-vector<int> karatsuba(vector<int> x,vector<int> y){
+void karatsuba(vector<int> x,vector<int> y,vector<int>&res){
 
-	if (x.size() <= 4 || y.size() <= 4) {
-		vector<int> res = longMult(x, y);
-		return res;
+	if (x.size() <= 1 || y.size() <= 1) {
+		res = longMult(x, y);
+		return;
 	}
-	if (x.size() % 2 != 0 && x.size()!=1)AddLeadZeros(x, 1);
-	if (y.size() % 2 != 0 && y.size() != 1)AddLeadZeros(y, 1);
+	if (x.size() % 2 != 0 && x.size() > 1)
+		AddLeadZeros(x, 1);
+	if (y.size() % 2 != 0 && y.size() > 1)
+		AddLeadZeros(y, 1);
+	vector<int> ac, bd, sumx, sumy, abcd, acSumbd;
+	vector<int> first, middle, mid;
 	vector<int> a(x);
 	a.resize(a.size() / 2);
 	vector<int> b = splitVector(x);
+	//x.resize(x.size() / 2);
 	vector<int> c(y);
 	c.resize(c.size() / 2);
 	vector<int> d= splitVector(y);
-	vector<int> ac, bd, sumx, sumy, abcd,acSumbd;
-	vector<int> first, middle, end;
-	ac = karatsuba(a, c); //cout << "ac: "; printArry(ac); printArry(longMult(a, c));
-	bd = karatsuba(b, d); // cout << "bd: "; printArry(bd); printArry(longMult(b, d));
-	sumx = adder(a, b);
-	removeLeadZeros(sumx);
-	sumy = adder(c, d);
-	removeLeadZeros(sumy);
-	equalSize(sumx, sumy); //cout << "sumx size: " << sumx.size(); cout << ",sumy size: " << sumy.size();
-	abcd = karatsuba(sumx, sumy); //cout << "sumx: "; printArry(sumx); cout << "sumy: "; printArry(sumy);  cout << "abcd: "; printArry(abcd); printArry(longMult(sumx, sumy));
-	first = upbyTen(ac, x.size());
-	acSumbd = adder(ac, bd);
-	//removeLeadZeros(acSumbd);
-	equalSize(abcd, acSumbd);
-	middle = sub(abcd, acSumbd);
-	//removeLeadZeros(middle);
-	middle = upbyTen(middle, (x.size() / 2));
-	middle = adder(first, middle);
-	//removeLeadZeros(middle);
-	end = adder(middle, bd);
-	//removeLeadZeros(end);
- 	return end;
-}
-//adder(adder(upbyTen(ac, 2), upbyTen(sub(sub(abcd, ac, 2), bd, 2 * 2), 2 / 2), 2), bd, 2);
-/*int* test() {
-	int ac[2] = { 0,8 };
-	int bd[2] = { 4,5 };
-	int abcd[4] = { 0,0,9,1 };
-	int size = 2;
-	int* firstPart = upbyTen(ac, 2, 2);
-	printArry(firstPart, 4);
-	int* acAddbd = adder(ac, bd, 2, 2);
-	printArry(acAddbd, 3);
-	int* abcd_Sub_ac_Add_bd = sub(abcd, acAddbd,4,3);
-	printArry(abcd_Sub_ac_Add_bd, 4);
-	int* midPart = upbyTen(abcd_Sub_ac_Add_bd, 4, 2/ 2);
-	printArry(midPart, 5);
-	int* partOne_Two = adder(firstPart, midPart, 4, 5);
-	printArry(partOne_Two, 6);
-	return adder(partOne_Two, bd, 6, 2);
-	//return adder(upbyTen(ac, size, size), upbyTen(sub(sub(abcd, ac, size), bd, size), size, size), size, size);
-} */
-
-vector<int> upbyTen(vector<int> x,int power) {
-	/*if (power % 2 != 0)
-	{
-		power = power + 1;
-	}*/
-
-	vector<int> res(x.size()+ power, 0);
-	
-	for (int i = 0; i < x.size(); i++)
-	{
-		res[i] = x[i];
-	}
-	return res;
-
-}
-vector<int> sub(vector<int> x, vector<int> y) {
-	int sizex = x.size();
-	int sizey = y.size();
-	vector<int> res(sizex, 0);
-	for (int i = 0; i<sizey; i++) {
-		if (x[sizex - i-1] < y[sizey - i-1]) {
-			x[sizex - i - 2]--;
-			res[sizex-i-1] =x[sizex - i - 1] - y[sizey - i - 1] + 10;
+	//y.resize(y.size() / 2);
+	 karatsuba(a, c,ac); //cout << "ac: "; printArry(ac); printArry(longMult(a, c));
+	 karatsuba(b, d, bd); // cout << "bd: "; printArry(bd); printArry(longMult(b, d));
+	if (Checksub(b,a)) {		
+		 sub(b, a, sumx);
+		if (Checksub(c, d)) {
+			sub(c, d,sumy);
+			karatsuba(sumx, sumy, abcd);
+			adder(ac, bd, acSumbd);
+		    adder(abcd, acSumbd, middle);
 		}
 		else {
-			res[sizex - i-1] =x[sizex - i - 1] - y[sizey - i - 1];
+			 sub(d, c, sumy);
+			 karatsuba(sumx, sumy,abcd);
+			 adder(ac, bd, acSumbd);
+			 //equalSize(abcd, acSumbd);
+			 sub(acSumbd, abcd, middle);
 		}
 	}
-	for (int i = sizey; i < sizex; i++)
-	{
-		res[sizex - i-1] = x[sizex - i - 1];
-		
+	else {
+		  sub(a, b, sumx);
+		if (Checksub(c, d)) {
+			sub(c, d, sumy);
+		    karatsuba(sumx, sumy, abcd);
+			adder(ac, bd, acSumbd);
+			//equalSize(abcd, acSumbd);
+			sub(acSumbd, abcd, middle);
+		}
+		else {
+		    sub(d, c,sumy);
+			karatsuba(sumx, sumy, abcd);
+			adder(ac, bd, acSumbd);
+			adder(abcd, acSumbd, middle);
+		}
 	}
-	
-	//result.removeLeadZeros();
-	return res;
-}
-vector<int> adder(vector<int> x, vector<int> y) {
-	if (x.size() > y.size())
-	{
-		return addTo(x, y);
-	}
-	else return addTo(y, x);
+	//sumx = (a, b);
+	//sumy = adder(c, d);
+	//equalSize(sumx, sumy); //cout << "sumx size: " << sumx.size(); cout << ",sumy size: " << sumy.size();
+	//abcd = karatsuba(sumx, sumy); //cout << "sumx: "; printArry(sumx); cout << "sumy: "; printArry(sumy);  cout << "abcd: "; printArry(abcd); printArry(longMult(sumx, sumy));
+	//acSumbd = sub(ac, bd);
+	upbyTen(ac, x.size());
+	//equalSize(abcd, acSumbd);
+	//middle = sub(abcd, acSumbd);
+	removeLeadZeros(ac);
+	removeLeadZeros(middle);
+	upbyTen(middle, (x.size() / 2));
+    adder(ac, middle, mid);
+	adder(mid, bd, res);
+	removeLeadZeros(res);
 
 }
-vector<int> addTo(vector<int> bigger, vector<int> smaller)
+
+
+void upbyTen(vector<int>& x,int power) {
+
+	x.resize(x.size() + power, 0);
+}
+bool Checksub(vector<int> x, vector<int> y) {
+	int i = 0;
+	
+	while (i < x.size()) {
+		if (x[i] > y[i])
+			return true;
+		else if (x[i] < y[i])
+			return false;
+		i++;
+	}
+	return true;
+}
+void sub(vector<int> x, vector<int> y,vector<int>& res) {
+	int sizex = x.size();
+	int sizey = y.size();
+	
+	//vector<int> res(sizex, 0);
+	for (int i = 0; i < sizey; i++) {
+		if (x[sizex - i - 1] < y[sizey - i - 1]) {
+			x[sizex - i - 2]--;
+			res.insert(res.begin(),x[sizex - i - 1] - y[sizey - i - 1] + 10);
+		}
+		else {
+			res.insert(res.begin(), x[sizex - i - 1] - y[sizey - i - 1]);
+		}
+	}
+}
+void adder(vector<int> x, vector<int> y,vector<int>&res) {
+	if (x.size() >= y.size())
+	{
+	 addTo(x, y,res);
+	 return;
+	}
+	 addTo(y, x,res);
+	 return;
+
+}
+void addTo(vector<int> bigger, vector<int> smaller, vector<int>& res)
 {
 	int bigSize = bigger.size();
 	int smallSize = smaller.size();
-	vector<int>res(bigSize + 1, 0);
-	for(int i=0;i< smallSize;i++){
-		res[bigSize - i] += bigger[bigSize-1 - i] + smaller[smallSize-1 - i];
-		if (res[bigSize - i] > 9) {
-			res[bigSize - i - 1]+= res[bigSize - i]/ 10;
-			res[bigSize - i] %= 10;
+	int carry=0,sum;
+	//AddLeadZeros(bigger, 1);
+	for (int i = 0; i < smallSize; i++) {
+		sum = bigger[bigSize - 1 - i] + smaller[smallSize - 1 - i] + carry;
+		if (sum > 9) {
+			res.insert(res.begin(), sum % 10);
+			carry = sum / 10;
 		}
+		else {
+			res.insert(res.begin(), sum);
+			carry = 0;
+		}
+
 	}
 	for (int i = smallSize; i < bigSize; i++) {
-		res[bigSize - i] += bigger[bigSize - 1 - i];
-		if (res[bigSize - i] > 9) {
-			res[bigSize - i - 1] += res[bigSize - i] / 10;
-			res[bigSize - i] %= 10;
+		sum= bigger[bigSize - 1 - i]+carry;
+		if (sum > 9) {
+			res.insert(res.begin(), sum % 10);
+			carry = sum / 10;
+		}
+		else {
+			res.insert(res.begin(), sum);
+			carry = 0;
 		}
 	}
-	//result.removeLeadZeros();
-	return res;
-
+	if(carry!=0)  res.insert(res.begin(), carry);
 }
+
 
 
 void printArry(vector<int> res) {
@@ -158,9 +178,10 @@ void AddLeadZeros(vector<int>& x,int size) {
 }
 
 vector<int>splitVector(vector<int>& x) {
-	vector<int> res;
-	for (int i = x.size() / 2; i < x.size(); i++) {
-		res.push_back(x[i]);
+	vector<int> res(x.size()/2);
+	int index = 0;
+	for (int i = x.size() / 2; i < x.size(); i++,index++) {
+		res[index]=x[i];
 	}
 	return res;
 }

@@ -45,13 +45,13 @@ vector<int> measureLongMult(vector<int> x, vector<int> y)
 
 }
 
-vector<int> measureKaratsuba(vector<int> x, vector<int> y)
+vector<int> measureKaratsuba(vector<int> x, vector<int> y, vector<int>& res)
 {
 
-	vector<int>res;	auto start = chrono::high_resolution_clock::now();
+	auto start = chrono::high_resolution_clock::now();
 	// unsync the I/O of C and C++.
 	ios_base::sync_with_stdio(false);
-	res = karatsuba(x, y);// Here you put the name of the function you wish to measure
+	 karatsuba(x, y,res);// Here you put the name of the function you wish to measure
 	auto end = chrono::high_resolution_clock::now();
 	// Calculating total time taken by the program.
 	double time_taken =

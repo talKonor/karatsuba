@@ -3,9 +3,15 @@
 int main() {
 	string n;
 	string number;
-	vector<int> x, y,result;
+	vector<int> x, y;
 	int size;
+	vector<int>a = { 5,5 };
+	vector<int>b = { 4,8 };
+	vector<int>res;
+	adder(a, b, res);
+	
 	cin >> n;
+
 	if (!checkInput(n,DONT_CARE)){
 		cout << "wrong output";
 		return 0;
@@ -26,35 +32,37 @@ int main() {
 		return 0;
 	}
 	y=convertToInt(number);
-	while ((x.size() & (x.size() - 1)) != 0) {
+	/*while ((x.size() & (x.size() - 1) )!= 0) {
 		AddLeadZeros(x, 1);
-	}
-	while ((y.size() & (y.size() - 1)) != 0) {
+
+	  }
+   while ((y.size() & (y.size() - 1)) != 0) {
 		AddLeadZeros(y, 1);
-	}
-	result = measureLongMult(x,y);
-	removeLeadZeros(result);
+	} */
+   vector<int>result1, result2, result3;
+   result1 = measureLongMult(x,y);
+	removeLeadZeros(result1);
 	cout << "Long multiplication: x * y = ";
-	for (int i = 0; i < result.size(); i++)
+	for (int i = 0; i < result1.size(); i++)
 	{
-		cout << result[i];
+		cout << result1[i];
 	}
 	cout << endl;
-	result = measureKaratsuba(x,y);
-	removeLeadZeros(result);
+	 measureKaratsuba(x,y, result2);
+	removeLeadZeros(result2);
 	cout << "Karatsuba (recursive): x * y = ";
-	for (int i = 0; i < result.size(); i++)
+	for (int i = 0; i < result2.size(); i++)
 	{
-		cout << result[i];
+		cout << result2[i];
 	}
 	cout << endl;
-	result = measureKaratsubaNotRec(x,y);
+	/*result = measureKaratsubaNotRec(x,y);
 	removeLeadZeros(result);
 	cout << "Karatsuba (iterative): x * y = ";
 	for (int i = 0; i < result.size(); i++)
 	{
 		cout << result[i];
-	}
+	}  */
 
 	cout << endl;
 } 

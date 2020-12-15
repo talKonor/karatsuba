@@ -10,5 +10,5 @@ vector<int> convertToInt(string number);
 bool checkInput(string num, int numSize);
 
 vector<int> measureLongMult(vector<int>x, vector<int>y);
-vector<int> measureKaratsuba(vector<int>x, vector<int>y);
+vector<int> measureKaratsuba(vector<int> x, vector<int> y, vector<int>& res);
 vector<int> measureKaratsubaNotRec(vector<int>x, vector<int>y);

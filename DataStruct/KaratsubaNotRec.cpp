@@ -1,6 +1,8 @@
 #include"KaratsubaNotRec.h"
 vector<int> KaratsubaNotRec(vector<int> x, vector<int> y) {
-	Stack s;
+	return x;
+}
+	/*Stack s;
 	ItemType curr(x, y);
 	vector<int> returnValue;
 	vector<int> sumx, sumy;
@@ -57,13 +59,13 @@ vector<int> KaratsubaNotRec(vector<int> x, vector<int> y) {
 			returnFromRec = true;
 			vector<int>first, mid,acSumbd,end;
 			acSumbd = adder(curr.ac, curr.bd);
-			first = upbyTen(curr.ac, curr.x.size());
+			 upbyTen(curr.ac, curr.x.size());
 			removeLeadZeros(acSumbd);
 			equalSize(curr.abcd, acSumbd);
 			mid = sub(curr.abcd, acSumbd);
 			removeLeadZeros(mid);
-			mid = upbyTen(mid, (curr.x.size() / 2));
-			mid = adder(first, mid);
+			 upbyTen(mid, (curr.x.size() / 2));
+			mid = adder(curr.ac, mid);
 			removeLeadZeros(mid);
 			end = adder(mid, curr.bd);
 			removeLeadZeros(end);
@@ -73,4 +75,4 @@ vector<int> KaratsubaNotRec(vector<int> x, vector<int> y) {
 	} while (!s.isEmpty());
 	return returnValue;
 }
-
+		 */
