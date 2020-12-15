@@ -6,9 +6,9 @@
 #include "KaratsubaNotRec.h"
 #define DONT_CARE -1
 using namespace std;
-vector<int> convertToInt(string number);
+intArr convertToInt(string number);
 bool checkInput(string num, int numSize);
 
-vector<int> measureLongMult(vector<int>x, vector<int>y);
-vector<int> measureKaratsuba(vector<int> x, vector<int> y, vector<int>& res);
-vector<int> measureKaratsubaNotRec(vector<int>x, vector<int>y);
+intArr measureLongMult(intArr x, intArr y);
+intArr measureKaratsuba(intArr x, intArr y);
+intArr measureKaratsubaNotRec(intArr x, intArr y);

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Genral.cpp" />
+    <ClCompile Include="intArr.cpp" />
     <ClCompile Include="Karatsuba.cpp" />
     <ClCompile Include="KaratsubaNotRec.cpp" />
     <ClCompile Include="main.cpp" />
@@ -148,10 +149,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Genral.h" />
+    <ClInclude Include="intArr.h" />
     <ClInclude Include="Karatsuba.h" />
     <ClInclude Include="KaratsubaNotRec.h" />
     <ClInclude Include="RegularLong.h" />
     <ClInclude Include="Stack.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="measure.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

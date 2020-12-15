@@ -1,5 +1,5 @@
 #include "RegularLong.h"
-vector<int> longMult(vector<int> x, vector<int> y)
+intArr longMult(intArr x, intArr y)
 {
 	if (x.size() >= y.size())
 	{
@@ -7,10 +7,10 @@ vector<int> longMult(vector<int> x, vector<int> y)
 	}
 	return SchoolMult(y, x);
 }
-vector<int> SchoolMult(vector<int> x, vector<int> y) {
+intArr SchoolMult(intArr x, intArr y) {
 	int size= 2*x.size();
 	int index = size;
-	vector<int> res (size,0);
+	intArr res(size,0);
 	int carry = 0, mult;
 	int  intenalIndex;
 

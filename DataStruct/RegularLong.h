@@ -1,7 +1,8 @@
 #pragma once
 #include<vector>
 #include<iostream>
+#include"intArr.h"
 using namespace std;
-vector<int> longMult(vector<int> x, vector<int> y);
+intArr longMult(intArr x, intArr y);
 
-vector<int> SchoolMult(vector<int> x, vector<int> y);
+intArr SchoolMult(intArr x, intArr y);
