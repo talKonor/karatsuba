@@ -1,0 +1,2 @@
+Time taken by function LongMult is : 1.984789 sec
+Time taken by function Karatsuba is : 2.196279 sec
