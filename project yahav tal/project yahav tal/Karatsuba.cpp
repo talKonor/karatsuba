@@ -3,35 +3,54 @@
 #include <iostream>
 
 
+int zeroesToRemove(intArr& x, intArr& y) {
+	int zeroes = min(x.leadingZeros(), y.leadingZeros());
+	if ((x.size() - zeroes) % 2 != 0) {
+		zeroes--;
+	}
+	return std::max(zeroes, 0);
+}
 
-
-intArr karatsuba(intArr& x, intArr& y){
-	//static int counter = 0;
+intArr karatsuba(intArr& x, intArr& y) {
+	static int counter = 0;
 	if (x.size() <= 1 && y.size() <= 1) {
 		return mult(x[0], y[0]);
 	}
-	if (x.size() % 2 != 0 && x.size() > 1)
-		x.addLeadZeros(1);
-	if (y.size() % 2 != 0 && y.size() > 1)
-		y.addLeadZeros(1);
+	if (x.leadingZeros() == x.size() || y.leadingZeros() == y.size())
+		return mult(0, 0);
+
+
+	int ac_zeroes = zeroesToRemove(x, y);
+
+	intArr new_x(&x[ac_zeroes], x.size() - ac_zeroes);
+	intArr new_y(&y[ac_zeroes], y.size() - ac_zeroes);
+
+	if (new_x.size() % 2 != 0 && new_x.size() > 1)
+		if (ac_zeroes == 0) {
+			new_x.addLeadZeros(1);
+			new_y.addLeadZeros(1);
+		}
+
+
 	intArr ac, bd, sumx, sumy, abcd, acSumbd;
 	intArr end;
 	intArr start, middle;
-	intArr a(&x[0],x.size()/2);
-	intArr b(&x[x.size()/2], x.size() / 2);
-	intArr c(&y[0],y.size()/2);
-	intArr d(&y[y.size() / 2], y.size() / 2);
-	ac = karatsuba(a, c);//cout << "ac: " << ac;//intArr ac2 = longMult(a, c);cout << "|| ac long: " << ac2 << endl;
-	bd = karatsuba(b, d);//cout << "bd: " << bd;//intArr bd2 = longMult(b, d);cout << "|| bd long: " << bd2 << endl;
-	//if (counter == 4691)
-	//	counter++;
-	if (Checksub(b,a)) {		
-		 sumx=sub(b, a);
+
+	intArr a(&new_x[0], new_x.size() / 2);
+	intArr b(&new_x[new_x.size() / 2], new_x.size() / 2);
+	intArr c(&new_y[0], new_y.size() / 2);
+	intArr d(&new_y[new_y.size() / 2], new_y.size() / 2);
+
+	ac = karatsuba(a, c);
+	bd = karatsuba(b, d);
+
+	if (Checksub(b, a)) {
+		sumx = sub(b, a);
 		if (Checksub(c, d)) {
-			sumy= sub(c, d);
-			abcd = karatsuba(sumx, sumy);//;cout << "abcd: " << abcd;intArr abcd2 = longMult(sumx, sumy);cout << "|| abcd long: " << bd2 << endl;
-			acSumbd=adder(ac, bd);
-		    middle=adder(abcd, acSumbd);
+			sumy = sub(c, d);
+			abcd = karatsuba(sumx, sumy);
+			acSumbd = adder(ac, bd);
+			middle = adder(abcd, acSumbd);
 		}
 		else {
 			sumy = sub(d, c);
@@ -55,20 +74,21 @@ intArr karatsuba(intArr& x, intArr& y){
 			middle = adder(abcd, acSumbd);
 		}
 	}
-	//cout << sumx<<"|"<<sumy<<"|  abcd: " << abcd;intArr abcd2 = longMult(sumx, sumy);cout << "|| abcd long: " << abcd2 << endl;
-	ac.upByTen(x.size());// cout << "acUP: " << ac <<"next is mid: "<<middle<<"x.size()="<<x.size()<<endl;
-	//counter++;cout << "counter=" << counter << endl;
-	middle.upByTen(((x.size()+1) / 2));//cout << "midUP: " << middle << endl;
-    start=adder(ac, middle);//cout << "start: " << start << endl;
-	end=adder(start, bd);//cout << "end: " << end << endl;
+
+	ac.upByTen(new_x.size());
+	middle.upByTen(((new_x.size() + 1) / 2));
+	start = adder(ac, middle);
+	end = adder(start, bd);
+	//	cout << " a: " << a << " b: " << b << " c: " << c << " d: " << d << endl;
+	//	cout << "ac: " << ac << "|| bc: " << bd << "|| abcd: " << abcd << endl;
 	end.setOwner(false);
-	//cout << "ac: " << ac << " middle: " << middle << " bd: " << bd << endl;
+
 	return end;
 }
 
 bool Checksub(intArr& x, intArr& y) {
 	int i = 0;
-	
+
 	while (i < x.size()) {
 		if (x[i] > y[i])
 			return true;
@@ -105,41 +125,34 @@ intArr sub(intArr& x, intArr& y) {// the problem of middle crashing is here: y.s
 	int carry = 0;
 	intArr res(max);
 	for (int i = 0; i < min; i++) {
-		res[max - i - 1] = res[max - i - 1]+ x[sizex - i - 1] - y[sizey - i - 1];
-		/*
-		if (res[sizex - i - 1] < 0) {
-			res[sizex - i - 1] += 10;
-			res[sizex - i - 2]--;
-		}*/
-	}
-	for (int i = min; i < max; i++)
-	{
-		if(sizex==max)
-			res[max - i - 1] += x[sizex - i - 1];
-		/*if (res[sizex - i - 1] < 0) {
-			res[sizex - i - 1] += 10;
-			res[sizex - i - 2]--;*/
-		}
-	/*if (sizex != sizey)
-		res[0] += x[0];
-	else
-		res[0] = res[0] + (x[0] - y[0]);
-		*/
-	for (int i = 0; i < max-1; i++)
-	{
+		res[max - i - 1] = res[max - i - 1] + x[sizex - i - 1] - y[sizey - i - 1];
 		if (res[max - i - 1] < 0) {
-			res[max - i - 1] += 10;
 			res[max - i - 2]--;
+			res[max - i - 1] += 10;
 		}
 	}
-	for (int i = 0; i < max - 1; i++)
+	if (sizex > sizey) {
+		for (int i = min; i < max; i++)
+		{
+			res[max - i - 1] += x[sizex - i - 1];
+			if (res[max - i - 1] < 0) {
+				res[max - i - 2]--;
+				res[max - i - 1] += 10;
+			}
+		}
+	}
+	//---//
+
+	for (int i = 0; i < max; i++)
 	{
 		if (res[i] < 0) {
-			i++;
+			cout << "x: " << x;
+			cout << "y: " << y;
+			cout << "res: " << res;
 		}
+
 	}
-	//if (sizex != sizey)
-		//res[0] += x[0];
+
 	res.setOwner(false);
 	return res;
 }

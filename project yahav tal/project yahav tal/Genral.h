@@ -11,4 +11,4 @@ bool checkInput(string num, int numSize);
 
 intArr measureLongMult(intArr& x, intArr& y);
 intArr measureKaratsuba(intArr& x, intArr& y);
-//intArr measureKaratsubaNotRec(intArr x, intArr y);
+intArr measureKaratsubaNotRec(intArr& x, intArr& y);

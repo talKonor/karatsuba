@@ -95,23 +95,25 @@ int main() {
 	}
 	intArr y(size);
 	y.convertToInt(number);
-/*	while ((x.size() & (x.size() - 1) )!= 0) {
-		x.addLeadZeros(1);
-
-	  }
-   while ((y.size() & (y.size() - 1)) != 0) {
-		y.addLeadZeros(1);
-	}*/ 
-	
+	//intArr x(10);
+	//intArr y(6);
+	//x.junk(3);
+	//y.junk(3);
+	//cout << "x: " << x << " y: " << y << endl;
 	int i = 0;
-	cout << "LONG MULT: ";
-	intArr result1 = measureLongMult(x, y);
-	cout << result1;
 	cout <<endl;
-	cout << "KARTABUSHA: ";
-	intArr result = measureKaratsuba(x, y);
 
-	cout << result;
+	cout << "LongMult: "<<endl;
+	intArr result = measureLongMult(x, y);
+	cout << result << endl;
+
+	cout << "KARTABUSHA: "<<endl;
+	intArr result1 = measureKaratsuba(x, y);
+	cout << result1 << endl;
+
+	cout << "KARTABUSHA: " << endl;
+	intArr result2 = measureKaratsubaNotRec(x, y);
+	cout << result2 << endl;
 
 
 	//	cout << result[i];
@@ -144,3 +146,10 @@ int main() {
 }
 
 
+/*while ((x.size() & (x.size() - 1) )!= 0) {
+	x.addLeadZeros(1);
+
+  }
+while ((y.size() & (y.size() - 1)) != 0) {
+	 y.addLeadZeros(1);
+ } */

@@ -30,16 +30,48 @@ intArr::intArr(int* slice, int slice_size)
     owner = false;
 }
 
+void intArr::split(int* slice, int slice_size) {
+    real_size = slice_size;
+    log_size = slice_size;
+    arr = slice;
+    owner = false;
+}
+
 intArr::~intArr()
 {
     if (owner) {
         delete[] arr;
     }
 }
+void intArr::junk(int size) {
+    delete[]arr;
+    arr = new int[size];
+    log_size = size;
+    real_size = size;
+    owner = true;
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = (rand() % 9);
+    }
+
+
+}
 
 int intArr::size()
 {
     return log_size;
+}
+
+int intArr::leadingZeros()//returns number of leading zeroes to first non zero digit
+{
+    int zeroes = 0;
+
+
+
+    while (arr[zeroes] == 0) {
+        zeroes++;
+    }
+    return zeroes;
 }
 
 void intArr::setlogSize(int new_size)

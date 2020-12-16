@@ -26,15 +26,32 @@ int Stack::isEmpty()
     return (top==nullptr);
 }
 
-void Stack::push(ItemType next)
+void Stack::push(Item& next)
 {
     top = new Node(next, top);
 
 }
 
-ItemType Stack::pop()
+Item& Item::operator=(const Item& item)
 {
-    ItemType data;
+    new_size = item.new_size;
+    x = item.x;
+    y = item.y;
+    a = item.a;
+    b = item.b;
+    c = item.c;
+    d = item.d;
+    ac = item.ac;
+    bd = item.bd;
+    abcd = item.abcd;
+    out = item.out;
+    line=item.line;
+    return *this;
+
+}
+Item Stack::pop()
+{
+    Item data;
     if (isEmpty()) {
         cout << "The stack is empty"<<endl;
         exit(1);
@@ -42,41 +59,71 @@ ItemType Stack::pop()
     }
     Node* temp = top;
     top = top->next;
+    temp->item.freeOwnership();
     data = temp->item;
     delete temp;
+    data.freeOwnership();
     return data;
 }
 
-ItemType Stack::Top() {
+Item Stack::Top() {
     return this->top->item;
 }
 
-ItemType::ItemType()
+Item::Item()
 {
     this->line = START;
+    new_size = 0;
     
 }
 
-ItemType::ItemType(vector<int> x, vector<int> y)
+Item::~Item()
 {
+}
+
+Item::Item(intArr& x, intArr& y)
+{
+    x.setOwner(false);
+    y.setOwner(false);
     this->x = x;
     this->y = y;
+    new_size = x.size();
     this->line = START;
 }
 
-ItemType::ItemType(const ItemType& item)
+Item::Item(const Item& item)
 {
     this->line = item.line;
     this->out = item.out;
     this->x = item.x;
     this->y = item.y;
+    a = item.a;
+    b = item.b;
+    c = item.c;
+    d = item.d;
+    new_size = item.new_size;
     this->ac = item.ac;
     this->bd = item.bd;
     this->abcd = item.abcd;
     this->out = item.out;
+    this->freeOwnership();
 }
 
-Node::Node(const ItemType& item, Node* next)
+void Item::freeOwnership()
+{
+    a.setOwner(false);
+    b.setOwner(false);
+    c.setOwner(false);
+    d.setOwner(false);
+    x.setOwner(false);
+    y.setOwner(false);
+    ac.setOwner(false);
+    bd.setOwner(false);
+    abcd.setOwner(false);
+    out.setOwner(false);
+}
+
+Node::Node(const Item& item, Node* next)
 {
     this->next = next;
     this->item = item;

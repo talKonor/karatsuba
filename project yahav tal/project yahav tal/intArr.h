@@ -9,9 +9,13 @@ public:
 	intArr(const intArr& origin);
 	intArr();
 	intArr(int* slice,int slice_size);
+	void split(int* slice, int slice_size);
 	~intArr();
 
+	void junk(int size);
+
 	int size();
+	int leadingZeros();
 	void setlogSize(int new_size);
 	void convertToInt(string number);
 	void upByTen(int power);

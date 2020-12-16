@@ -16,3 +16,4 @@ void intArrsplitVector(intArr& x);
 void printArry(intArr res);
 bool Checksub(intArr& x, intArr& y);
 intArr mult(int x, int y);
+int zeroesToRemove(intArr& x, intArr& y);
